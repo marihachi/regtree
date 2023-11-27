@@ -9,6 +9,6 @@
     "start": "node ."
   },
   "dependencies": {
-    "carol-js": "file:../.."
+    "carol-js": "1.0.0"
   }
 }

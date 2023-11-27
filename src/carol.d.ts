@@ -79,6 +79,8 @@ declare module 'carol-js' {
     toRegex(flags?: Flag | Flag[]): RegExp;
   }
 
+  export default carol;
+
   export {
     carol,
     Flag,

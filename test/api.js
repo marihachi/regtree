@@ -1,22 +1,65 @@
 /// <reference path="../dist/carol.d.ts" />
 
+import test, { describe } from 'node:test';
 import assert from 'node:assert';
 import _default, { carol, Pattern, alt, seq } from 'carol-js';
 
-assert.ok(typeof carol === 'function');
-assert.ok(Pattern != null);
-assert.ok(alt != null);
-assert.ok(seq != null);
+describe('api', () => {
+  test('carol', () => {
+    assert.strictEqual(carol(/abc/).source, 'abc');
+  });
 
-assert.ok(typeof _default === 'function');
-assert.ok(_default.carol != null);
-assert.ok(_default.Pattern != null);
-assert.ok(_default.alt != null);
-assert.ok(_default.seq != null);
+  test('Pattern', () => {
+    assert.strictEqual(new Pattern('abc').source, 'abc');
+  });
 
-const p = carol(/abc/);
-assert.ok(p.many != null);
-assert.ok(p.option != null);
-assert.ok(p.capture != null);
-assert.ok(p.toRegex != null);
-assert.ok(p.source != null);
+  test('seq', () => {
+    assert.strictEqual(seq([carol(/abc/), carol(/xyz/)]).source, 'abcxyz');
+  });
+
+  test('alt', () => {
+    assert.strictEqual(alt([carol(/abc/), carol(/xyz/)]).source, '(?:abc|xyz)');
+  });
+
+  test('Pattern.many', () => {
+    const p = carol(/abc/);
+    assert.strictEqual(p.many().source, '(?:abc)*');
+  });
+
+  test('Pattern.option', () => {
+    const p = carol(/abc/);
+    assert.strictEqual(p.option().source, '(?:abc)?');
+  });
+
+  test('Pattern.capture', () => {
+    const p = carol(/abc/);
+    assert.strictEqual(p.capture().source, '(abc)');
+  });
+
+  test('Pattern.toRegex', () => {
+    const p = carol(/abc/);
+    assert.ok(p.toRegex() instanceof RegExp);
+  });
+});
+
+describe('api (default export)', () => {
+  test('default', () => {
+    assert.strictEqual(_default(/abc/).source, 'abc');
+  });
+
+  test('default.carol', () => {
+    assert.strictEqual(_default.carol(/abc/).source, 'abc');
+  });
+
+  test('default.Pattern', () => {
+    assert.strictEqual(new _default.Pattern('abc').source, 'abc');
+  });
+
+  test('default.seq', () => {
+    assert.strictEqual(_default.seq([_default.carol(/abc/), _default.carol(/xyz/)]).source, 'abcxyz');
+  });
+
+  test('default.alt', () => {
+    assert.strictEqual(_default.alt([_default.carol(/abc/), _default.carol(/xyz/)]).source, '(?:abc|xyz)');
+  });
+});

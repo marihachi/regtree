@@ -1,7 +1,8 @@
 # carol-js
-A small tool for building regular expressions.  
+A small tool for building regular expressions.
+
 We build a RegExp object by combining functions.  
-We only support ES modules.  
+We only support ES modules.
 
 ## Example
 ```js
